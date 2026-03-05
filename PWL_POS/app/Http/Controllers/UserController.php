@@ -10,15 +10,9 @@ class UserController extends Controller
 {
     public function index()
     {
-
-        $data =[
-            'level_id' => 2,
-            'username' => 'manager_tiga',
-            'nama' => 'Manager Tiga',
-            'password' => Hash::make('12345')
-        ];
-        UserModel::create($data); 
-        $user = UserModel::all();
+        $user = UserModel::findOr(20, ['username', 'nama'], function () {
+                abort(404);
+        });
         return view('user', ['data' => $user]);
     }
 }
@@ -37,3 +31,10 @@ class UserController extends Controller
         //     'level_id' => 5
         // ];
         // UserModel::where('username', 'customer-1')->update($data); //update data user
+        // $data =[
+        //     'level_id' => 2,
+        //     'username' => 'manager_tiga',
+        //     'nama' => 'Manager Tiga',
+        //     'password' => Hash::make('12345')
+        // ];
+        // UserModel::create($data); 
